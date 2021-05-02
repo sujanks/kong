@@ -1,0 +1,66 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:13.2
+    environment:
+      - POSTGRES_USER=kong
+      - POSTGRES_PASSWORD=kong
+      - POSTGRES_DB=kong
+    ports:
+      - "5432:5432"
+    container_name: kong-db
+    networks:
+      kongnet:
+        aliases:
+          - kong-db
+
+  kong_migration:
+    image: kong:latest
+    environment:
+      - KONG_DATABASE=postgres
+      - KONG_PG_HOST=kong-db
+      - KONG_PG_USER=kong
+      - KONG_PG_PASSWORD=kong
+    container_name: kong_migration
+    command: "kong migrations bootstrap"
+    depends_on:
+      - "postgres"
+    networks:
+      kongnet:
+        aliases:
+          - kong_migration
+
+  kong:
+    image: kong:latest
+    expose:
+      - 8000
+      - 8443
+      - 8001
+      - 8444
+    ports:
+    - 8000:8000
+    - 8443:8443
+    - 8001:8001
+    - 8444:8444
+    depends_on:
+      - "postgre"
+      - "kong_migration"
+    environment:
+      - KONG_DATABASE=postgres
+      - KONG_PG_HOST=kong-db
+      - KONG_PG_USER=kong
+      - KONG_PG_PASSWORD=kong
+      - KONG_PROXY_ACCESS_LOG=/dev/stdout
+      - KONG_ADMIN_ACCESS_LOG=/dev/stdout
+      - KONG_PROXY_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl
+    container_name: kong
+    networks:
+      kongnet:
+        aliases:
+          - kong
+
+networks:
+  kongnet: { }
