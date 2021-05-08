@@ -1,0 +1,313 @@
+{
+	"info": {
+		"_postman_id": "97441d0c-846a-415b-90bf-1c9265b60a3a",
+		"name": "kong",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create-service",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "url",
+							"value": "localhost",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "admin-api",
+							"type": "text"
+						},
+						{
+							"key": "tags",
+							"value": "health",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8001/services",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"services"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-route",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "hosts[]",
+							"value": "docker.for.mac.localhost",
+							"type": "text"
+						},
+						{
+							"key": "paths[]",
+							"value": "/health",
+							"type": "text"
+						},
+						{
+							"key": "strip_path",
+							"value": "false",
+							"type": "text"
+						},
+						{
+							"key": "methods[]",
+							"value": "GET",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8001/services/health-service/routes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"services",
+						"health-service",
+						"routes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete-service",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/services/example-service",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"services",
+						"example-service"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete-routes",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/services/golang-service/routes/dd005be2-f653-4028-86ca-33df4290ed83",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"services",
+						"golang-service",
+						"routes",
+						"dd005be2-f653-4028-86ca-33df4290ed83"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "kong-proxy",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Host",
+						"value": "docker.for.mac.localhost",
+						"type": "text"
+					},
+					{
+						"key": "apikey",
+						"value": "Jlb17ZKRwBcFj9Jgk52hPP8r0WWDw2uX",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "consumer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "consumer1",
+							"type": "text"
+						},
+						{
+							"key": "custom_id",
+							"value": "101",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8001/consumers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"consumers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "key-auth-plugin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "key-auth",
+							"type": "text"
+						},
+						{
+							"key": "custom_id",
+							"value": "102",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8001/services/admin-api/plugins",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"services",
+						"admin-api",
+						"plugins"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "consumer-api-key",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/consumers/konga/key-auth",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"consumers",
+						"konga",
+						"key-auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "rate-limit-plugin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "rate-limiting",
+							"type": "text"
+						},
+						{
+							"key": "config.minute",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "config.hour",
+							"value": "100",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8001/services/health-service/plugins?name=rate-limiting&config-minute=2&config.hour=100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"services",
+						"health-service",
+						"plugins"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "rate-limiting"
+						},
+						{
+							"key": "config-minute",
+							"value": "2"
+						},
+						{
+							"key": "config.hour",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
